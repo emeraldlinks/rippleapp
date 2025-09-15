@@ -13,14 +13,11 @@ interface RouterProp {
 export component Router({ $routes }: RouterProp) {
   const router = useRouter();
 
-  // reactive reference to current path
   let $path = router.path;
 
-  // update reactive $path on popstate
   const handler = () => $path = router.path;
   window.addEventListener("popstate", handler);
 
-  // find the first route that matches current path (supports dynamic routes)
   const matched = $routes.find(r => router.match(r.$path));
 
   if (matched) {
