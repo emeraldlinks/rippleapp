@@ -1,0 +1,23 @@
+import type { Component } from 'ripple';
+import { useRouter } from './userouter.ts';
+
+interface LinkProps {
+  $url: string;
+  $children: Component;
+}
+
+export component Link({ $url, $children }: LinkProps) {
+  const router = useRouter();
+
+  <a
+    href={$url}
+    onClick={(e) => {
+      e.preventDefault();
+      router.push($url); // 
+    }}
+  >
+    <$children />
+  </a>
+}
+
+export default Link;

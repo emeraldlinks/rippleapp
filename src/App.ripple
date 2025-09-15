@@ -1,0 +1,62 @@
+import { Router } from "./router.ripple";
+import { useRouter } from "./userouter.ts";
+import Link from "./link.ripple"
+
+// Example pages
+component Home() {
+  let $count = 0;
+  <div>
+    <h2>{"Home Page"}</h2>
+    <button onClick={() => $count--}>{"-"}</button>
+    <span class="count">{$count}</span>
+    <button onClick={() => $count++}>{"+"}</button>
+  </div>
+}
+
+component About() {
+  let $text = "";
+  <div class="flex">
+    <h2>{"About Page"}</h2>
+    <input onInput={(e) => $text = e.target.value} />
+    <p>{"You typed: "} {$text}</p>
+  </div>
+}
+
+export component App() {
+  <div class="container">
+    <h1>{"Welcome to Ripple Routing!"}</h1>
+
+    {/* Navigation */}
+    <nav class="flex">
+      <Link $url="/"><p>{"Home"}</p></Link>
+      <Link $url="/about"><p>{"About Me"}</p></Link>
+      <Link $url="/users/42"><p>{"About Me"}</p></Link>
+
+    </nav>
+
+    {/* Reactive router */}
+    <Router
+  $routes={[
+    { $path: "/", $component: Home },
+    { $path: "/about", $component: About },
+    { $path: "/users/:id", $component: UserPage }
+  ]}
+/>
+
+  </div>
+}
+
+
+
+export component UserPage() {
+  const router = useRouter();
+
+  const id = router.match("/users/:id") ? router.params.id : null;
+
+  <div>
+    <h2>{"User Page"}</h2>
+    <p>{"Current path: " + router.path}</p>
+    <p>{"User ID: " + id}</p>
+    <button onClick={() => router.push("/users/42")}>{"Go to user 42"}</button>
+  </div>;
+}
